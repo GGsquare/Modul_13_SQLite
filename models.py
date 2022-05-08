@@ -57,36 +57,6 @@ class TodosSQLite:
         cur.execute(sql, zadanie)
         conn.commit()
         return cur.lastrowid
-
-#    """Dodawanie konkretnego projektu i zadania"""
-
-    if __name__ == "__main__":
-        projekt = ("Zadanie z modułu 13", "2022-05-03 08:00:00", "2022-05-03 12:00:00")
-        projekt = ("Zaległe zadania z poprzednich modułów", "2022-05-03 00:00:00", "2022-05-03 23:00:00")
-        conn = create_connection("database.db")
-        pr_id = add_projekt(conn, projekt)
-
-        zadanie = (
-        pr_id,
-            "Zamówić dźwig",
-            "Rozformowanie kany na 06/05 na godzine 10:00",
-            "started",
-            "2022-05-03 07:00:00",
-            "2020-05-03 07:05:00"
-        )
-        zadanie = (
-        pr_id,
-            "Moduł 7",
-            "Dokończyć zadanie",
-            "started",
-            "2022-05-02 07:00:00",
-            "2022-05-03 23:00:00"
-        )
-
-        zadanie_id = add_zadanie(conn, zadanie)
-     
-        print(pr_id, zadanie_id)
-        conn.commit()
      
 #    """Pobieranie danych"""
 
@@ -186,12 +156,6 @@ class TodosSQLite:
         except sqlite3.OperationalError as e:
             print(e)
 
-    if __name__ == "__main__":
-        conn = create_connection("database.db")
-        update(conn, "tasks", 2, status="started")
-        update(conn, "tasks", 2, stat="ended")
-        conn.close()
-
 #    """Usuwanie danych"""
 
     def delete_where(conn, table, **kwargs):
@@ -230,5 +194,35 @@ class TodosSQLite:
      
     if __name__ == "__main__":
         conn = create_connection("database.db")
+        update(conn, "tasks", 2, status="started")
+        update(conn, "tasks", 2, stat="ended")
         delete_where(conn, "tasks", id=3)
         delete_all(conn, "tasks")
+
+#    """Dodawanie konkretnego projektu i zadania"""
+
+        projekt = ("Zadanie z modułu 13", "2022-05-03 08:00:00", "2022-05-03 12:00:00")
+        projekt = ("Zaległe zadania z poprzednich modułów", "2022-05-03 00:00:00", "2022-05-03 23:00:00")
+        pr_id = add_projekt(conn, projekt)
+
+        zadanie = (
+        pr_id,
+            "Zamówić dźwig",
+            "Rozformowanie kany na 06/05 na godzine 10:00",
+            "started",
+            "2022-05-03 07:00:00",
+            "2020-05-03 07:05:00"
+        )
+        zadanie = (
+        pr_id,
+            "Moduł 7",
+            "Dokończyć zadanie",
+            "started",
+            "2022-05-02 07:00:00",
+            "2022-05-03 23:00:00"
+        )
+        zadanie_id = add_zadanie(conn, zadanie)
+        print(pr_id, zadanie_id)
+        conn.commit()
+
+        conn.close()
